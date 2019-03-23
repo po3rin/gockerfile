@@ -25,7 +25,7 @@ path: ./example/server
 
 run go api server from repository source code. repo is git repository. path is path to main.go.
 
-### Build gocker using docker build
+### Build Gockerfile using docker build
 
 you can use this in docker build
 
