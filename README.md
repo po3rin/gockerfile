@@ -2,6 +2,7 @@
 
 <img src="https://img.shields.io/badge/go-v1.12-blue.svg"/> [![GolangCI](https://golangci.com/badges/github.com/po3rin/gockerfile.svg)](https://golangci.com) <a href="https://codeclimate.com/github/po3rin/gockerfile/maintainability"> <a href="https://codeclimate.com/github/po3rin/gockerfile/maintainability"><img src="https://api.codeclimate.com/v1/badges/7cc6dbab602cfd7e2e9a/maintainability" /></a>
 
+:whale:
 gockerfile is a YAML Docker-compatible alternative to the Dockerfile Specializing in simple go server.
 
 ## Instalation as cmd
