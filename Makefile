@@ -7,7 +7,7 @@ debug:
 
 .PHONY: build-gocker
 build-gocker:
-	go run cmd/gocker/main.go -graph | buildctl build --exporter=docker --exporter-opt name=buildkit0 | docker load
+	go run cmd/gocker/main.go -graph | buildctl build --exporter=docker --exporter-opt name=gockersample | docker load
 
 .PHONY: build-buildctl
 build-buildctl:
@@ -15,6 +15,7 @@ build-buildctl:
 		--frontend=gateway.v0 \
 		--frontend-opt=source=$(GATEWAY_IMAGE) \
 		--local dockerfile=. \
+		--local context=. \
 		--exporter=docker \
 		--exporter-opt name=$(IMAGE) | docker load
 
