@@ -3,16 +3,14 @@ package gockerfile
 import (
 	"github.com/moby/buildkit/client/llb"
 	"github.com/moby/buildkit/util/system"
+	"github.com/po3rin/gockerfile/config"
 )
 
 // Gocker2LLB converts gockerfile yml to LLB.
-func Gocker2LLB() (*llb.Definition, error) {
-	state := buildkit()
-	dt, err := state.Marshal(llb.LinuxAmd64)
-	if err != nil {
-		return nil, err
-	}
-	return dt, nil
+func Gocker2LLB(c *config.Config) (llb.State, *Image, error) {
+	state := buildkit(c)
+	imgCfg := NewImageConfig(c)
+	return state, imgCfg, nil
 }
 
 func goBuildBase() llb.State {
@@ -35,11 +33,11 @@ func copy(src llb.State, srcPath string, dest llb.State, destPath string) llb.St
 	return cp.AddMount("/dest", dest)
 }
 
-func buildkit() llb.State {
+func buildkit(c *config.Config) llb.State {
 	src := goBuildBase().
-		Run(llb.Shlex("git clone https://github.com/po3rin/gockerfile.git /go/src/github.com/po3rin/gockerfile")).
-		Dir("/go/src/github.com/po3rin/gockerfile").
-		Run(llb.Shlex("go build -o /bin/go_sample_server ./example/server"))
+		Run(llb.Shlex("git clone https://" + c.Repo + ".git /go/src/" + c.Repo)).
+		Dir("/go/src/" + c.Repo).
+		Run(llb.Shlex("go build -o /bin/server " + c.Path))
 
 	r := alpineBase()
 	r = copy(src.Root(), "/bin/server", r, "/bin/")

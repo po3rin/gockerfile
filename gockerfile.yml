@@ -1,7 +1,0 @@
-#syntax=po3rin/gocker
-
-apiVersion: v1gocker
-images:
-- name: demo
-  from: golang-alpine:latest
-  repo: github.com/po3rin/gockerfile
