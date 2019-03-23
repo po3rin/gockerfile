@@ -1,5 +1,3 @@
 #syntax=po3rin/gocker
-
-apiVersion: v1gocker
 repo: github.com/po3rin/gockerfile
 path: ./example/server
