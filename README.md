@@ -14,7 +14,7 @@ $ go get -u github.com/po3rin/gockerfile/cmd/gocker
 
 ### po3rin/gocker config file
 
-create Gockerfile.yaml (Gockerfile supports only simple format)
+create Gockerfile.yaml (Gockerfile supports only 2 fields)
 
 ```yaml
 #syntax=po3rin/gocker
