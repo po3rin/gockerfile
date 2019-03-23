@@ -4,7 +4,7 @@
 
 gockerfile is a YAML Docker-compatible alternative to the Dockerfile Specializing in simple go server.
 
-## Instalation
+## Instalation as cmd
 
 ```bash
 $ go get -u github.com/po3rin/gockerfile/cmd/gocker
