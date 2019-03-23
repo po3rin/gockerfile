@@ -12,6 +12,8 @@ $ go get -u github.com/po3rin/gockerfile/cmd/gocker
 
 ## Usage
 
+### po3rin/gocker config file
+
 create Gockerfile.yaml (Gockerfile supports only simple format)
 
 ```yaml
@@ -23,6 +25,15 @@ path: ./example/server
 
 run go api server from repository source code. repo is git repository. path is path to main.go.
 
+### Build gocker using docker build
+
+you can use this in docker build
+
+```
+$ DOCKER_BUILDKIT=1 docker build -f Gockerfile.yaml .
+```
+
+### Build with builtctl
 
 gocker lets you build image from Gockerfile using buildctl & docker expoter.
 
