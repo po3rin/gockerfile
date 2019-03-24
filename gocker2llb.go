@@ -13,10 +13,6 @@ func Gocker2LLB(c *config.Config) (llb.State, *Image, error) {
 	return state, imgCfg, nil
 }
 
-func alpineBase() llb.State {
-	return llb.Image("docker.io/library/alpine:latest")
-}
-
 func goBuildBase() llb.State {
 	goAlpine := llb.Image("docker.io/library/golang:1.12-alpine")
 	return goAlpine.
