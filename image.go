@@ -52,6 +52,7 @@ type HealthConfig struct {
 	Retries int `json:",omitempty"`
 }
 
+// NewImageConfig init image config.
 func NewImageConfig(c *config.Config) *Image {
 	img := emptyImage()
 	img.Config.Cmd = []string{"/bin/server"}
