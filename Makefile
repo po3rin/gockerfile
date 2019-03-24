@@ -1,8 +1,12 @@
 GATEWAY_IMAGE := po3rin/gocker
 IMAGE := po3rin/gockersample
 
-.PHONY: debug
-debug:
+.PHONY: debug-raw
+debug-raw:
+	go run cmd/gocker/main.go -graph
+
+.PHONY: debug-img
+debug-img:
 	go run cmd/gocker/main.go -graph | buildctl debug dump-llb --dot | dot -T png -o out.png
 
 .PHONY: build-gocker
