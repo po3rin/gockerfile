@@ -1,0 +1,13 @@
+builds:
+  - main: cmd/gocker/main.go
+    binary: gocker
+    goos:
+      - windows
+      - darwin
+      - linux
+    goarch:
+      - amd64
+release:
+  github:
+    owner: po3rin
+    name: gocker
