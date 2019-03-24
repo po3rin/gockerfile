@@ -22,27 +22,22 @@ create Gockerfile.yaml (Gockerfile supports only 2 fields)
 
 repo: github.com/po3rin/gockerfile
 path: ./example/server
+version: v0.0.1 # default master
 ```
 
-run go api server from repository source code. repo is git repository. path is path to main.go.
+repo is git repository. path is path to main.go.
 
 ### Build Gockerfile using docker build
 
-you can use this in docker build
+you can build Gockerfile.yaml with docker build
 
 ```
-$ DOCKER_BUILDKIT=1 docker build -f Gockerfile.yaml .
+$ DOCKER_BUILDKIT=1 docker build -f Gockerfile.yaml -t po3rin/gockersample .
 ```
 
-### Build with builtctl
+### Build Gockerfile with builtctl
 
-gocker lets you build image from Gockerfile using buildctl & docker expoter.
-
-```bash
-$ gocker | buildctl build --exporter=docker --exporter-opt name=gockersample | docker load
-```
-
-or using as buildkit frontend.
+using as buildkit frontend.
 
 ```bash
 buildctl build \
@@ -56,7 +51,7 @@ buildctl build \
 
 ## Run container
 
-you can exec go api container.
+You can run go API container as it is.
 
 ```bash
 $ docker run -it -p 8080:8080 po3rin/gockersample:latest /bin/server

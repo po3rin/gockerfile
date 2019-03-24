@@ -10,9 +10,26 @@ import (
 
 // Config is yml top level config.
 type Config struct {
-	APIVersion string `yaml:"apiVersion"`
-	Repo       string `yaml:"repo"`
-	Path       string `yaml:"path"`
+	Repo string `yaml:"repo"`
+	Ver  string `yaml:"version"`
+	Path string `yaml:"path"`
+}
+
+func validateRequiredConfig(c *Config) error {
+	if c.Repo == "" {
+		return errors.New("repo field is required")
+	}
+	return nil
+}
+
+func SetDefaultConfig(c *Config) *Config {
+	if c.Ver == "" {
+		c.Ver = "master"
+	}
+	if c.Path == "" {
+		c.Path = "./"
+	}
+	return c
 }
 
 // NewConfigFromBytes returns a new config from a bytes
@@ -21,6 +38,10 @@ func NewConfigFromBytes(b []byte) (*Config, error) {
 	if err := yaml.Unmarshal(b, c); err != nil {
 		return nil, errors.Wrap(err, "unmarshal config")
 	}
+	if err := validateRequiredConfig(c); err != nil {
+		return nil, errors.Wrap(err, "failed to validate gockerfile")
+	}
+	c = SetDefaultConfig(c)
 	return c, nil
 }
 
