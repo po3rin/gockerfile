@@ -18,12 +18,37 @@ func goBuildBase() llb.State {
 	return goAlpine.
 		AddEnv("PATH", "/usr/local/go/bin:"+system.DefaultPathEnv).
 		AddEnv("GO111MODULE", "on").
-		Run(llb.Shlex("apk add --no-cache g++ linux-headers")).
-		Run(llb.Shlex("apk add --no-cache git libseccomp-dev make")).Root()
+		Run(llb.Shlex("apk add --no-cache git")). // for go modules
+		Root()
 }
 
-func alpineBase() llb.State {
-	return llb.Image("docker.io/library/alpine:latest")
+func goRepo(s llb.State, repo, ref string, g ...llb.GitOption) func(ro ...llb.RunOption) llb.State {
+	dir := "/go/src/" + repo
+	return func(ro ...llb.RunOption) llb.State {
+		es := s.Dir(dir).Run(ro...)
+		es.AddMount(dir, llb.Git(repo, ref, g...))
+		return es.AddMount(dir+"/bin", llb.Scratch())
+	}
+}
+
+func buildkit(c *config.Config) llb.State {
+	builder := goRepo(goBuildBase(), c.Repo, c.Ver)
+	built := builder(llb.Shlex("go build -o ./bin/server " + c.Path))
+	r := llb.Image("docker.io/library/alpine:latest").With(
+		copyAll(built, "/bin"),
+	)
+	return r
+}
+
+func copyAll(src llb.State, destPath string) llb.StateOption {
+	return copyFrom(src, "/.", destPath)
+}
+
+// copyFrom has similar semantics as `COPY --from`
+func copyFrom(src llb.State, srcPath, destPath string) llb.StateOption {
+	return func(s llb.State) llb.State {
+		return copy(src, srcPath, s, destPath)
+	}
 }
 
 func copy(src llb.State, srcPath string, dest llb.State, destPath string) llb.State {
@@ -31,15 +56,4 @@ func copy(src llb.State, srcPath string, dest llb.State, destPath string) llb.St
 	cp := cpImage.Run(llb.Shlexf("cp -a /src%s /dest%s", srcPath, destPath))
 	cp.AddMount("/src", src)
 	return cp.AddMount("/dest", dest)
-}
-
-func buildkit(c *config.Config) llb.State {
-	src := goBuildBase().
-		Run(llb.Shlex("git clone https://" + c.Repo + ".git /go/src/" + c.Repo)).
-		Dir("/go/src/" + c.Repo).
-		Run(llb.Shlex("go build -o /bin/server " + c.Path))
-
-	r := alpineBase()
-	r = copy(src.Root(), "/bin/server", r, "/bin/")
-	return r
 }

@@ -1,3 +1,4 @@
 #syntax=po3rin/gocker
 repo: github.com/po3rin/gockerfile
-path: ./example/server
+path: ./example/gin
+version: v0.0.1

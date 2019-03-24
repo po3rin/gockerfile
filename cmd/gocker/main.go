@@ -41,6 +41,6 @@ func main() {
 	}
 
 	if err := grpcclient.RunFromEnvironment(appcontext.Context(), gockerfile.Build); err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 }
