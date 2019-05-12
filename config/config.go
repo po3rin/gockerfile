@@ -22,7 +22,7 @@ func validateRequiredConfig(c *Config) error {
 	return nil
 }
 
-func SetDefaultConfig(c *Config) *Config {
+func setDefaultConfig(c *Config) *Config {
 	if c.Ver == "" {
 		c.Ver = "master"
 	}
@@ -41,7 +41,7 @@ func NewConfigFromBytes(b []byte) (*Config, error) {
 	if err := validateRequiredConfig(c); err != nil {
 		return nil, errors.Wrap(err, "failed to validate gockerfile")
 	}
-	c = SetDefaultConfig(c)
+	c = setDefaultConfig(c)
 	return c, nil
 }
 
