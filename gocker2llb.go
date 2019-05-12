@@ -9,7 +9,7 @@ import (
 // Gocker2LLB converts gockerfile yml to LLB.
 func Gocker2LLB(c *config.Config) (llb.State, *Image, error) {
 	state := buildkit(c)
-	imgCfg := NewImageConfig(c)
+	imgCfg := NewImageConfig()
 	return state, imgCfg, nil
 }
 

@@ -5,7 +5,6 @@ import (
 
 	"github.com/docker/docker/api/types/strslice"
 	"github.com/moby/buildkit/util/system"
-	"github.com/po3rin/gockerfile/config"
 
 	specs "github.com/opencontainers/image-spec/specs-go/v1"
 )
@@ -53,7 +52,7 @@ type HealthConfig struct {
 }
 
 // NewImageConfig init image config.
-func NewImageConfig(c *config.Config) *Image {
+func NewImageConfig() *Image {
 	img := emptyImage()
 	img.Config.Cmd = []string{"/bin/server"}
 	return img
