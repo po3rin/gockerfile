@@ -15,7 +15,8 @@ import (
 
 const (
 	LocalNameContext      = "context"
-	LocalNameDockerfile   = "gockerfile"
+	LocalNameDockerfile   = "dockerfile"
+	LocalNameGockerfile   = "gockerfile"
 	keyTarget             = "target"
 	keyFilename           = "filename"
 	keyCacheFrom          = "cache-from"
@@ -72,9 +73,14 @@ func Build(ctx context.Context, c client.Client) (*client.Result, error) {
 
 func GetGockerfileConfig(ctx context.Context, c client.Client) (*config.Config, error) {
 	opts := c.BuildOpts().Opts
+
+	var localName string
 	filename := opts[keyFilename]
 	if filename == "" {
 		filename = defaultGockerfileName
+		localName = LocalNameGockerfile
+	} else {
+		localName = LocalNameDockerfile
 	}
 
 	name := "load Gockerfile"
@@ -82,7 +88,7 @@ func GetGockerfileConfig(ctx context.Context, c client.Client) (*config.Config, 
 		name += " from " + filename
 	}
 
-	src := llb.Local(LocalNameDockerfile,
+	src := llb.Local(localName,
 		llb.IncludePatterns([]string{filename}),
 		llb.SessionID(c.BuildOpts().SessionID),
 		llb.SharedKeyHint(defaultGockerfileName),

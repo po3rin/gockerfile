@@ -17,23 +17,24 @@ debug-img:
 build-gocker:
 	go run cmd/gocker/main.go -graph | buildctl build --output type=docker,name=gockersample | docker load
 
+.PHONY: docker-build
+docker-build:
+	DOCKER_BUILDKIT=1 docker build -f Gockerfile.yaml -t po3rin/gockersample .
+
 .PHONY: build-buildctl
 build-buildctl:
 	buildctl build \
 		--frontend=gateway.v0 \
-		--frontend-opt=source=$(GATEWAY_IMAGE) \
+		--opt source=$(GATEWAY_IMAGE) \
 		--local gockerfile=. \
-		--local context=. \
 		--output type=docker,name=$(IMAGE) | docker load
 
 .PHONY: build-buildctl-test
 build-buildctl-test:
-	buildctl build \
+	buildctl --debug build \
 		--frontend=gateway.v0 \
-		--frontend-opt=source=$(GATEWAY_IMAGE_TEST) \
+		--opt source=$(GATEWAY_IMAGE_TEST) \
 		--local gockerfile=. \
-		--local context=. \
-		--exporter=docker \
 		--output type=docker,name=$(IMAGE) | docker load
 
 .PHONY: image
