@@ -22,7 +22,17 @@ build-buildctl:
 	buildctl build \
 		--frontend=gateway.v0 \
 		--frontend-opt=source=$(GATEWAY_IMAGE) \
-		--local dockerfile=. \
+		--local gockerfile=. \
+		--local context=. \
+		--exporter=docker \
+		--exporter-opt name=$(IMAGE) | docker load
+
+.PHONY: build-buildctl-test
+build-buildctl-test:
+	buildctl build \
+		--frontend=gateway.v0 \
+		--frontend-opt=source=$(GATEWAY_IMAGE_TEST) \
+		--local gockerfile=. \
 		--local context=. \
 		--exporter=docker \
 		--exporter-opt name=$(IMAGE) | docker load
