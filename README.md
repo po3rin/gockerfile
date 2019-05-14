@@ -42,11 +42,9 @@ using as buildkit frontend.
 ```bash
 buildctl build \
 		--frontend=gateway.v0 \
-		--frontend-opt=source=po3rin/gocker \
+		--opt source=po3rin/gocker \
 		--local gockerfile=. \
-		--local context=. \
-		--exporter=docker \
-		--exporter-opt name=gockersample | docker load
+		--output type=docker,name=gockersample | docker load
 ```
 
 ## Run container
