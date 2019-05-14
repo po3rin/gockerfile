@@ -43,7 +43,7 @@ using as buildkit frontend.
 buildctl build \
 		--frontend=gateway.v0 \
 		--frontend-opt=source=po3rin/gocker \
-		--local dockerfile=. \
+		--local gockerfile=. \
 		--local context=. \
 		--exporter=docker \
 		--exporter-opt name=gockersample | docker load

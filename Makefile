@@ -24,8 +24,7 @@ build-buildctl:
 		--frontend-opt=source=$(GATEWAY_IMAGE) \
 		--local gockerfile=. \
 		--local context=. \
-		--exporter=docker \
-		--exporter-opt name=$(IMAGE) | docker load
+		--output type=docker,name=$(IMAGE) | docker load
 
 .PHONY: build-buildctl-test
 build-buildctl-test:
@@ -35,7 +34,7 @@ build-buildctl-test:
 		--local gockerfile=. \
 		--local context=. \
 		--exporter=docker \
-		--exporter-opt name=$(IMAGE) | docker load
+		--output type=docker,name=$(IMAGE) | docker load
 
 .PHONY: image
 image:
