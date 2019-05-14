@@ -15,7 +15,7 @@ import (
 
 const (
 	LocalNameContext      = "context"
-	LocalNameDockerfile   = "dockerfile"
+	LocalNameDockerfile   = "gockerfile"
 	keyTarget             = "target"
 	keyFilename           = "filename"
 	keyCacheFrom          = "cache-from"
