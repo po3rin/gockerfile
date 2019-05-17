@@ -14,10 +14,12 @@ func Gocker2LLB(c *config.Config) (llb.State, *Image, error) {
 }
 
 func goBuildBase() llb.State {
-	goAlpine := llb.Image("docker.io/library/golang:1.12")
+	goAlpine := llb.Image("docker.io/library/golang:1.12-alpine")
 	return goAlpine.
 		AddEnv("PATH", "/usr/local/go/bin:"+system.DefaultPathEnv).
-		AddEnv("GO111MODULE", "on")
+		AddEnv("GO111MODULE", "on").
+		Run(llb.Shlex("apk add --no-cache git")).
+		Root()
 }
 
 func goRepo(s llb.State, repo, ref string, g ...llb.GitOption) func(ro ...llb.RunOption) llb.State {
